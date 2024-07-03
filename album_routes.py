@@ -31,13 +31,15 @@ def apply_album_routes(app):
     def post_new_album():
         connection = get_flask_database_connection(app)
         repository = AlbumRepository(connection)
+        artist_repository = ArtistRepository(connection)
         title = request.form['title']
         print(title)
         release_year = int(request.form['release_year'])
         print(release_year)
         artist = request.form['artist']
-        id = Artist.find_by_name(artist)
-        album = Album(None, title, release_year, id)
+        artist_name = artist_repository.find_by_name(artist)
+        print(artist_name.id)
+        album = Album(None, title, release_year, artist_name.id)
         repository.create(album)
         return redirect(f"/albums/{album.id}")
 

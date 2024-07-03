@@ -27,8 +27,14 @@ class ArtistRepository:
         name = name.lower()
         rows = self._connection.execute(
             'SELECT * from artists WHERE lower(name) = %s', [name])
-        row = rows[0]
+        try:
+            row = rows[0]
+        except IndexError:
+            raise IndexError("Artist doesn't exist!")
         return Artist(row["id"], row["name"], row["genre"])
+        
+      
+            
     
     def find_with_albums(self, artist_id):
         rows = self._connection.execute(

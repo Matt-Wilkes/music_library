@@ -47,7 +47,7 @@ def test_get_albums_links(page, test_web_address, db_connection):
 When I GET /albums/new
 There should be an input for title, release_year and Artist
 """
-@pytest.mark.skip(reason ="need to add artist repository functionality test first")
+@pytest.mark.skip(reason ="need to test artist repository functionality test first")
 def test_get_new_albums_form(page, test_web_address):
     page.goto(f"http://{test_web_address}/albums/new")
     page.fill("input[name=title]","New album")

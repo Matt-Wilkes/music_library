@@ -1,6 +1,7 @@
 from lib.artist_repository import ArtistRepository
 from lib.artist import Artist
 from lib.album import Album
+import pytest
 
 """
 When we call ArtistRepository#all
@@ -104,3 +105,17 @@ def test_find_artist_by_name_check_case(db_connection):
     repository = ArtistRepository(db_connection)
     artist = repository.find_by_name("abba")
     assert artist == Artist(2, "ABBA", "Pop")
+    
+'''
+When I call ArtistRepository #find_by_name with an artist that doesn't exist
+I should get an error
+'''
+
+def test_find_artist_by_name_unknown_artist(db_connection):
+    db_connection.seed("seeds/music_library.sql")
+    repository = ArtistRepository(db_connection)
+    with pytest.raises(Exception) as err:
+        repository.find_by_name("someone")
+    error_message = str(err.value)
+    assert error_message == "Artist doesn't exist!"
+    
