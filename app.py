@@ -1,12 +1,13 @@
 import os
 from flask import Flask, request, render_template
 from lib.database_connection import get_flask_database_connection
+from lib.album_repository import AlbumRepository
+from lib.artist_repository import ArtistRepository
+from lib.album import Album
+from lib.artist import Artist
 
 # Create a new Flask app
 app = Flask(__name__)
-
-# == Your Routes Here ==
-
 
 # == Example Code Below ==
 
@@ -26,7 +27,20 @@ def get_emoji():
 from example_routes import apply_example_routes
 apply_example_routes(app)
 
+# importing album routes 
+from album_routes import apply_album_routes
+apply_album_routes(app)
+
+# importing album routes 
+from artist_routes import apply_artist_routes
+apply_artist_routes(app)
+
 # == End Example Code ==
+
+
+# == Your Routes Here ==
+
+
 
 # These lines start the server if you run this file directly
 # They also start the server configured to use the test database
