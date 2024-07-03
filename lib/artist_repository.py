@@ -23,6 +23,13 @@ class ArtistRepository:
         row = rows[0]
         return Artist(row["id"], row["name"], row["genre"])
     
+    def find_by_name(self, name):
+        name = name.lower()
+        rows = self._connection.execute(
+            'SELECT * from artists WHERE lower(name) = %s', [name])
+        row = rows[0]
+        return Artist(row["id"], row["name"], row["genre"])
+    
     def find_with_albums(self, artist_id):
         rows = self._connection.execute(
             "SELECT artists.id as artist_id, artists.name, artists.genre, albums.id AS album_id, albums.title, albums.release_year " \

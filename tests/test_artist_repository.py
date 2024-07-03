@@ -81,3 +81,26 @@ def test_find_with_albums(db_connection):
         Album(2, "Surfer Rosa", 1988, 1),
         Album(3, "Bossanova", 1990, 1),
     ])
+    
+
+'''
+When I call ArtistRepository #find_by_name with an artist name
+The artist with the matching name should be returned
+'''
+
+def test_find_artist_by_name(db_connection):
+    db_connection.seed("seeds/music_library.sql")
+    repository = ArtistRepository(db_connection)
+    artist = repository.find_by_name("ABBA")
+    assert artist == Artist(2, "ABBA", "Pop")
+    
+'''
+When I call ArtistRepository #find_by_name with an uppercase name
+The artist with the matching name should be returned regardless of case
+'''
+
+def test_find_artist_by_name_check_case(db_connection):
+    db_connection.seed("seeds/music_library.sql")
+    repository = ArtistRepository(db_connection)
+    artist = repository.find_by_name("abba")
+    assert artist == Artist(2, "ABBA", "Pop")
