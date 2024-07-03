@@ -44,11 +44,21 @@ def test_get_albums_links(page, test_web_address, db_connection):
     expect(h1_tag).to_have_text("Doolittle")
     
 """
-When I GET /albums/new
-There should be an input for title, release_year and Artist
+When I get albums/new
+'Artist' should show a dropdown with the current artists
+"""
+def test_get_new_album(page, test_web_address):
+    page.goto(f"http://{test_web_address}/albums/new")
+    dropdown = page.locator("select.t-artist")
+    options = dropdown.locator('option')
+    expect(options).to_have_text(['Pixies', 'ABBA', 'Taylor Swift', 'Nina Simone'])
+    
+"""
+When I add a new album
+The album should be displayed on the album_page
 """
 @pytest.mark.skip(reason ="need to test artist repository functionality test first")
-def test_get_new_albums_form(page, test_web_address):
+def test_post_add_album(page, test_web_address):
     page.goto(f"http://{test_web_address}/albums/new")
     page.fill("input[name=title]","New album")
     page.fill("input[name=release_year]","1990")

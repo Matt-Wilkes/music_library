@@ -24,21 +24,20 @@ def apply_album_routes(app):
 
     @app.route('/albums/new', methods=["GET"])
     def get_album_new():
-        return render_template('albums/new.html')
+        connection = get_flask_database_connection(app)
+        artist_repository = ArtistRepository(connection)
+        artists = artist_repository.all()
+        return render_template('albums/new.html', artists=artists)
     
-    # Not working :(
     @app.route('/albums', methods=["POST"])
     def post_new_album():
         connection = get_flask_database_connection(app)
         repository = AlbumRepository(connection)
         artist_repository = ArtistRepository(connection)
         title = request.form['title']
-        print(title)
         release_year = int(request.form['release_year'])
-        print(release_year)
         artist = request.form['artist']
         artist_name = artist_repository.find_by_name(artist)
-        print(artist_name.id)
         album = Album(None, title, release_year, artist_name.id)
         repository.create(album)
         return redirect(f"/albums/{album.id}")

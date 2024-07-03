@@ -17,7 +17,11 @@
         </p>
         <p>
           <label for="artist">Artist</label>
-          <input type="text" name="artist" id="artist">
+          <select class="t-artist" name="artist" id="artist">
+            {% for artist in artists %}
+            <option value="{{artist.name}}">{{artist.name}}</option>
+            {% endfor %}
+          </select>
         </p>
         <input type="submit" value="Add Album">
     </form>
