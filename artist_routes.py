@@ -27,7 +27,9 @@ def apply_artist_routes(app):
         connection = get_flask_database_connection(app)
         repository = ArtistRepository(connection)
         name = request.form['name']
+        print(name)
         genre = request.form['genre']
+        print(genre)
         
         artist = Artist(None, name, genre)
         repository.create(artist)

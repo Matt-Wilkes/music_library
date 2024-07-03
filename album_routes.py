@@ -20,7 +20,7 @@ def apply_album_routes(app):
         artist_repository = ArtistRepository(connection)
         album = album_repository.find(id)
         artist = artist_repository.find(album.artist_id)
-        return render_template('albums/album.html', album=album, artist=artist)
+        return render_template('albums/album_page.html', album=album, artist=artist)
 
     @app.route('/albums/new', methods=["GET"])
     def get_album_new():
@@ -32,8 +32,12 @@ def apply_album_routes(app):
         connection = get_flask_database_connection(app)
         repository = AlbumRepository(connection)
         title = request.form['title']
+        print(title)
         release_year = int(request.form['release_year'])
-        album = Album(None, title, release_year)
+        print(release_year)
+        artist = request.form['artist']
+        id = Artist.find_by_name(artist)
+        album = Album(None, title, release_year, id)
         repository.create(album)
         return redirect(f"/albums/{album.id}")
 

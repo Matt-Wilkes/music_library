@@ -42,17 +42,23 @@ def test_get_albums_links(page, test_web_address, db_connection):
     h1_tag = page.locator("h1")
     expect(h1_tag).to_have_text("Doolittle")
     
-# """
-# When I GET /albums/new
-# There should be an input for title, release_year and Artist
-# """
+"""
+When I GET /albums/new
+There should be an input for title, release_year and Artist
+"""
 
-# def test_get_new_albums_form(page, test_web_address):
-#     page.goto(f"http://{test_web_address}/albums/new")
-#     form_tag = page.locator("form")
-#     title = form_tag.get_by_label("Title")
-#     title.fill("New Album")
-#     expect(title).to_have_text("New Album")
+def test_get_new_albums_form(page, test_web_address):
+    page.goto(f"http://{test_web_address}/albums/new")
+    # title = page.get_by_role("textbox", name="title")
+    page.fill("input[name=title]","New album")
+    # name = page.get_by_role("textbox", name="release_year")
+    page.fill("input[name=release_year]","1990")
+    # artist = page.get_by_role("textbox", name="Artist")
+    page.fill("input[name=artist]","Artist")
+    page.click("text=Add Album")
+    h1_tag = page.locator("h1")
+    expect(h1_tag).to_have_text("New album")
+    
     
  
 # This isn't working as expected - album_repository.create() creates the album but 

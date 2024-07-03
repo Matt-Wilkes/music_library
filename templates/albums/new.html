@@ -6,18 +6,19 @@
   <body>
     <h1>Add album</h1>
 
-    <form action="/albums" methods="POST">
+    <form action="/albums" method="POST">
         <p>
-            <label for="title">
-              <input type="text" name="title"/>Title
-            </label>
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title">
         </p>
         <p>
             <label for="release_year">Release Year</label>
-            <input type="text" name="release_year">
+            <input type="text" name="release_year" id="release_year">
         </p>
-        
-
+        <p>
+          <label for="artist">Artist</label>
+          <input type="text" name="artist" id="artist">
+        </p>
         <input type="submit" value="Add Album">
     </form>
     
