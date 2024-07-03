@@ -26,10 +26,10 @@ def test_get_single_album(page, test_web_address, db_connection):
     page.goto(f"http://{test_web_address}/albums/1")
     h1_tag = page.locator("h1")
     expect(h1_tag).to_have_text("Doolittle")
-    p_tag = page.locator("p")
-    expect(p_tag).to_have_text([
-        "Release year: 1989\nArtist: Pixies"
-        ])
+    test_artist = page.get_by_test_id("t-artist")
+    expect(test_artist).to_have_text("Artist: Pixies")
+    test_release_year = page.get_by_test_id("t-release_year")
+    expect(test_release_year).to_have_text("Release year: 1989")
     
 """
 When I GET /albums
@@ -57,13 +57,19 @@ def test_get_new_album(page, test_web_address):
 When I add a new album
 The album should be displayed on the album_page
 """
-@pytest.mark.skip(reason ="need to test artist repository functionality test first")
+
 def test_post_add_album(page, test_web_address):
     page.goto(f"http://{test_web_address}/albums/new")
-    page.fill("input[name=title]","New album")
+    dropdown = page.locator("select.t-artist")
+    page.fill("input[name=title]","Sugababes Covers")
     page.fill("input[name=release_year]","1990")
-    page.fill("input[name=artist]","Artist")
-    page.click("text=Add Album")
+    dropdown.select_option("ABBA")
+    add_album = page.get_by_role("button")
+    add_album.click()
     h1_tag = page.locator("h1")
-    expect(h1_tag).to_have_text("New album")
+    expect(h1_tag).to_have_text("Sugababes Covers")
+    test_artist = page.get_by_test_id("t-release_year")
+    expect(test_artist).to_have_text("Release year: 1990")
+    test_artist = page.get_by_test_id("t-artist")
+    expect(test_artist).to_have_text("Artist: ABBA")
     
